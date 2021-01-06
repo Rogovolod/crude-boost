@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о текущем пользователе</title>
+</head>
+<body>
+<div align="center">
+    <h3>Добро пожаловать, <a th:text="${oneUser.name}">name</a> <a th:text="${oneUser.surname}">surname</a>!</h3>
+    <h3>О пользователе:</h3>
+    <form th:action="@{/users/user/{id} (id=*{id})}" th:object="${oneUser}" method="post">
+        <table border="1" bgcolor="#F0F8FF" align="center" width="40%">
+            <tr align="center">
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Депертамент</th>
+                <th>Зарплата</th>
+                <th>Логин</th>
+                <th>Права</th>
+            </tr>
+
+            <tr align="center">
+                <td th:text="${oneUser.name}">name</td>
+                <td th:text="${oneUser.surname}">name</td>
+                <td th:text="${oneUser.department}">name</td>
+                <td th:text="${oneUser.salary}">name</td>
+                <td th:text="${oneUser.login}">username</td>
+                <td>
+                    <p th:each="userRole: ${oneUser.roles}">
+                        <span th:text="${userRole.getRole()}">role</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br>
+    <form action="/logout" method="post">
+        <input type="submit" value="Выход">
+    </form>
+    <br>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <form action="/admin" method="get">
+            <input type="submit" value="К списку пользователей">
+        </form>
+    </div>
+</div>
+</body>
+</html>
