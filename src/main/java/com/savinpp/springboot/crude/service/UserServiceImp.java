@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
@@ -74,9 +76,17 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
-    public User showUserByUsername(String username) {
-        return userDao.showUserByUsername(username);
+    public User showUserByUsername(String login) {
+        return userDao.showUserByUsername(login);
     }
+
+    @Override
+    public List<String> getAllRoles(Role role) {
+        Query query = entityManager.createQuery("select role from Role");
+        return query.getResultList();
+    }
+
+
 
     @Override
     @org.springframework.transaction.annotation.Transactional(readOnly=true)

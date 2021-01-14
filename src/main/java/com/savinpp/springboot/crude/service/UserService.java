@@ -14,5 +14,7 @@ public interface UserService {
     public void save (User user);
     public void update (User user);
     public void delete (User user);
-    public User showUserByUsername(String username);
+    public User showUserByUsername(String login);
+    List<String> getAllRoles(Role role);
+
 }

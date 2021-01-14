@@ -4,10 +4,13 @@ import com.savinpp.springboot.crude.entity.User;
 import com.savinpp.springboot.crude.entity.Role;
 import com.savinpp.springboot.crude.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,26 +21,45 @@ public class MyController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public String showAll(Model model) {
+
+
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView AllUsers(ModelAndView modelAndView, @AuthenticationPrincipal User user, Principal principal) {
+        modelAndView.setViewName("test.html");
+        modelAndView.addObject("user", new User());
+        modelAndView.addObject("listRole", userService.listRoles());
+        modelAndView.addObject("index", userService.index());
+        modelAndView.addObject("currentUser", user);
+        modelAndView.addObject("oneUser", userService.showUserByUsername(principal.getName()));
+        return modelAndView;
+    }
+
+/*    @RequestMapping(value = "/",method = RequestMethod.GET)
+    public String showAll(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("index", userService.index());
-        System.out.println(userService.index());
-        return "index";
-    }
-
-    @GetMapping("/add")
-    public String getUser(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("currentUser", user);
         model.addAttribute("listRole", userService.listRoles());
-        return "add";
+        return "test";
+    }*/
+
+
+
+    @GetMapping("/createUser")
+    public String addUser(Model model) {
+        model.addAttribute("user", new User());
+        return "createUser";
     }
 
-    @PostMapping("/add")
-    public String add(@ModelAttribute("addUser") User user,
+    @PostMapping("/createUser")
+    public String add(@ModelAttribute("user") User user,
                       @RequestParam(value = "newRole", required = false) String[] role) {
         user.setRoles(getAddRole(role));
         userService.save(user);
         return "redirect:/admin";
     }
+
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") int id, Model model) {
@@ -54,7 +76,7 @@ public class MyController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id) {
         User user=userService.show(id);
         userService.delete(user);
@@ -68,4 +90,11 @@ public class MyController {
         }
         return roleSet;
     }
+
+    @GetMapping("/user")
+    public String clickMe(Model model, Principal principal) {
+        model.addAttribute("oneUser", userService.showUserByUsername(principal.getName()));
+        return "user";
+    }
+
 }

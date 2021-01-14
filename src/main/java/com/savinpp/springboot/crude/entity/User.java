@@ -106,6 +106,25 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public User(String name, String surname, String department, int salary, String password, String login, Set<Role> roles) {
+        this.name = name;
+        this.surname = surname;
+        this.department = department;
+        this.salary = salary;
+        this.login = login;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(int id) {
+        this.id = id;
+    }
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }

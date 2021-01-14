@@ -20,8 +20,8 @@ public class UserDaoImp implements UserDao {
         return entityManager.createQuery("select role from Role role where role.role=:name", Role.class)
                 .setParameter("name", name)
                 .getSingleResult();
-
     }
+
     @Override
     public List<Role> listRoles() {
         Query query = entityManager.createQuery("from Role");
@@ -55,12 +55,11 @@ public class UserDaoImp implements UserDao {
     public void delete(User user) { entityManager.remove(user);
     }
 
-
     @Override
-    public User showUserByUsername(String username) {
+    public User showUserByUsername(String login) {
         return entityManager
                 .createQuery("select u from User u where u.login =?1", User.class)
-                .setParameter(1, username)
+                .setParameter(1, login)
                 .getSingleResult();
     }
 
