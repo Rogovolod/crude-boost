@@ -1,12 +1,15 @@
 package com.savinpp.springboot.crude.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "login")})
@@ -51,6 +54,7 @@ public class User implements UserDetails {
             inverseJoinColumns =
             @JoinColumn(name = "roles_id", referencedColumnName = "id"))
 
+    @JsonIgnore
     private Set<Role> roles;
 
     @Override
@@ -185,4 +189,18 @@ public class User implements UserDetails {
                 ", password='" + password + '\'' +
                 '}';
     }
+
+    public Set<String> getRoleTitles() {
+        return roles.stream()
+                .map(Role::getRole)
+                .collect(Collectors.toSet());
+    }
+    @JsonProperty("roles")
+    public void setRoleTitles(Set<Integer> roleTitles) {
+        roles = roleTitles.stream()
+                .map(id -> new Role(id, null))
+                .collect(Collectors.toSet());
+    }
+
+
 }

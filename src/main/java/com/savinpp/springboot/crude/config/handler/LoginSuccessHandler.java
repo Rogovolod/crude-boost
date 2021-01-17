@@ -14,7 +14,7 @@ import java.util.Set;
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
-    @Override
+   /* @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
                                         HttpServletResponse httpServletResponse,
                                         Authentication authentication) throws IOException, ServletException {
@@ -26,5 +26,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         } else {
             httpServletResponse.sendRedirect("/welcome");
         }
+    }*/
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
+                                        HttpServletResponse httpServletResponse,
+                                        Authentication authentication) throws IOException, ServletException {
+        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+        httpServletResponse.sendRedirect("/index");
     }
+
 }
