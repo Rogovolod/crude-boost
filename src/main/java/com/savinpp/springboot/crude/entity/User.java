@@ -3,6 +3,7 @@ package com.savinpp.springboot.crude.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.istack.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -195,6 +196,7 @@ public class User implements UserDetails {
                 .map(Role::getRole)
                 .collect(Collectors.toSet());
     }
+
     @JsonProperty("roles")
     public void setRoleTitles(Set<Integer> roleTitles) {
         roles = roleTitles.stream()

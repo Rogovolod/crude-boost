@@ -1,6 +1,5 @@
 package com.savinpp.springboot.crude.controller;
 
-
 import com.savinpp.springboot.crude.service.RoleServiceImpl;
 import com.savinpp.springboot.crude.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;

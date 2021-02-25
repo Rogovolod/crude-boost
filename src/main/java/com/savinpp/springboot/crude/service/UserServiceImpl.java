@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class UserServiceImpl {
@@ -21,18 +21,8 @@ public class UserServiceImpl {
         userRepository.save(user);
     }
 
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
-    }
-
-    public User getUserById(int id) {
-        User user = null;
-        Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isPresent()) {
-            user = optionalUser.get();
-        }
-        return user;
     }
 
     public User getUserByLogin(String login) {
@@ -42,5 +32,4 @@ public class UserServiceImpl {
     public void deleteUserById(int id) {
         userRepository.deleteById(id);
     }
-
 }

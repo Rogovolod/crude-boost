@@ -17,8 +17,4 @@ public class RoleServiceImpl {
         return roleRepository.findAll();
     }
 
-    public Role getRoleByName(String name) {
-        return roleRepository.findByRole(name);
-    }
-
 }
