@@ -19,5 +19,4 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         httpServletResponse.sendRedirect("/index");
     }
-
 }
